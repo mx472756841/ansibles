@@ -1,0 +1,25 @@
+---
+- hosts: webservers
+  remote_user: root
+  tasks:
+    - name: get nginx status
+      command: service nginx status
+      ignore_errors: True
+      register: nginx_status
+
+    - name: stop nginx
+      service:
+        name: nginx
+        state: stopped
+      when: nginx_status.rc == 0
+
+    - name: uninstall nginx
+      apt:
+        name: nginx*
+        state: absent
+        purge: yes
+
+    - name: remove nginx path
+      file:
+        path: /etc/nginx
+        state: absent
