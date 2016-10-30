@@ -1,0 +1,17 @@
+---
+- name: get mysql status
+  command: service mysql status
+  register: mysql_state
+  ignore_errors: True
+
+- name: stop mysql
+  service:
+    name: mysql
+    state: stopped
+  when: mysql_state.rc == 0
+
+- name: uninstall mysql
+  apt:
+    name: mysql*
+    state: absent
+    purge: yes

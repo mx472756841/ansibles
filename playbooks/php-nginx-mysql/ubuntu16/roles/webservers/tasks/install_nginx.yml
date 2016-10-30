@@ -1,0 +1,13 @@
+---
+# install nginx
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: copy nginx config to /etc/nginx/
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+  notify: restart nginx

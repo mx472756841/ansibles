@@ -1,0 +1,5 @@
+---
+http_port: 8010
+php_port: 80
+php_pid: /run/php/php7.0-fpm.pid
+php_address: 127.0.0.1:9000

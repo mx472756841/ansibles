@@ -1,0 +1,12 @@
+---
+- include: install_nginx.yml
+  when: state == 'install'
+
+- include: install_php.yml
+  when: state == 'install'
+
+- include: uninstall_nginx.yml
+  when: state == 'uninstall'
+
+- include: uninstall_php.yml
+  when: state == 'uninstall'

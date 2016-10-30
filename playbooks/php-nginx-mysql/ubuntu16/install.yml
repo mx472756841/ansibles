@@ -1,0 +1,21 @@
+---
+- hosts: dbservers
+  remote_user: root
+  vars:
+    state: install
+  roles:
+    - dbservers
+  pre_tasks:
+    - name: 'dbservers pre tasks'
+      shell: echo 'begin install dbservers'
+
+- hosts: webservers
+  remote_user: root
+  vars:
+    state: install
+  roles:
+    - webservers
+  pre_tasks:
+    - name: 'webservers pre tasks'
+      shell: echo 'begin install webservers'
+

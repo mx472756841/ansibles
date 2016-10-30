@@ -1,0 +1,20 @@
+---
+- hosts: dbservers
+  remote_user: root
+  vars:
+    state: uninstall
+  roles:
+    - dbservers
+  pre_tasks:
+    - name: 'dbservers uninstall pre tasks'
+      shell: echo 'begin uninstall dbservers'
+
+- hosts: webservers
+  remote_user: root
+  vars:
+    state: uninstall
+  roles:
+    - webservers
+  pre_tasks:
+    - name: 'webservers uninstall pre tasks'
+      shell: echo 'begin uninstall webservers'

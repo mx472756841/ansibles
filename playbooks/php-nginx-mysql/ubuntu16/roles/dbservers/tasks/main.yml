@@ -1,0 +1,6 @@
+---
+- include: install_mysql.yml
+  when: state == 'install'
+
+- include: uninstall_mysql.yml
+  when: state == 'uninstall'

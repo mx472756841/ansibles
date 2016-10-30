@@ -1,0 +1,9 @@
+---
+# handlers for role webservers
+- name: restart nginx
+  service:
+    name: nginx
+    state: reloaded
+
+- name: reload php-fpm
+  shell: kill -USR2 `cat {{ php_pid }}`

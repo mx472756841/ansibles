@@ -1,0 +1,16 @@
+---
+- name: check php-fpm pid
+  stat:
+    path: "{{ php_pid }}"
+  register: php_info
+
+- name: kill php-fpm prcessing
+  shell: "kill -INT `cat {{ php_pid }}`"
+  when: php_info.stat.exists == True
+  ignore_errors: True
+
+- name: uninstall php
+  apt:
+    name: php*
+    state: absent
+    purge: yes
