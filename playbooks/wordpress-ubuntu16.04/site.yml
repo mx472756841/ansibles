@@ -1,0 +1,12 @@
+---
+- hosts: dbservers
+  remote_user: root
+  roles:
+    - mysql
+
+- hosts: webservers
+  remote_user: root
+  roles:
+    - nginx
+    - php
+    - wordpress

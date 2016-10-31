@@ -1,0 +1,17 @@
+---
+- name: install php packets
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - php
+    - php-mysql
+
+- name: copy configurate file to php
+  template:
+    src:  www.conf.j2
+    dest: /etc/php/7.0/fpm/pool.d/www.conf
+    backup: yes
+  notify: reload php-fpm
+
+

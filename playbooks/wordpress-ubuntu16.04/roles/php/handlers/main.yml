@@ -1,0 +1,3 @@
+---
+- name: reload php-fpm
+  shell: kill -USR2 `cat {{ php_pid }}`

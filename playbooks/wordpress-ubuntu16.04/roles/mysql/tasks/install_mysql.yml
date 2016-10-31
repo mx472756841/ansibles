@@ -1,0 +1,17 @@
+---
+# install mysql and create database
+- name: install mysql
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - mysql-server
+    - python-dev
+    - python-mysqldb
+
+- name: Create Mysql configuration file
+  template:
+    src: my.cnf.j2
+    dest: /etc/mysql/my.cnf
+  notify:
+    - restart mysql
