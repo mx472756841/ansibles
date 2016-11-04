@@ -1,0 +1,42 @@
+---
+# install nginx
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: copy nginx config to /etc/nginx/
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+  notify: restart nginx
+
+- name: copy php-fastcgi config to /etc/nginx/
+  copy:
+    src: fastcgi.conf
+    dest: /etc/nginx/fastcgi.conf
+  notify: restart nginx
+
+- name: get path /etc/nginx/snippets
+  file:
+    path: /etc/nginx/snippets
+  register: res
+  ignore_errors: True
+
+- name: create path /etc/nginx/snippets
+  file:
+    path: /etc/nginx/snippets
+    state: directory
+    mode: 0777
+  when: res.state == "absent"
+
+- name: copy php-fastcgi config to /etc/nginx/snippets
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/nginx/snippets/{{ item }}"
+    force: yes
+  with_items:
+    - fastcgi-php.conf
+    - snakeoil.conf
+  notify: restart nginx
