@@ -1,0 +1,6 @@
+---
+# handlers for role jenkins
+- name: restart jenkins
+  service:
+    name: jenkins
+    state: reloaded

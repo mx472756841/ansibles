@@ -1,0 +1,27 @@
+---
+# install jenkins
+
+- name: add jenkins apt key
+  remote_user: root
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+    validate_certs: no
+
+- name: add jenkins source
+  shell: echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list
+
+- name: update source and install jenkins
+  apt:
+    name: jenkins
+    state: present
+    update_cache: yes
+
+- name: copy jenkins config to /etc/default
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    backup: yes
+  with_items:
+    - { src: 'jenkins.j2', dest: '/etc/default/jenkins'}
+  notify: restart jenkins

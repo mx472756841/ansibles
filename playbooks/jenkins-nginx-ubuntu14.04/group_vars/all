@@ -1,0 +1,8 @@
+---
+# nginx params
+jenkins_nginx_port: 80
+jenkins_server_name: jenkins.example.com
+jenkins_proxy_uri: http://localhost
+
+# jenkins params
+jenkins_port: 8080
