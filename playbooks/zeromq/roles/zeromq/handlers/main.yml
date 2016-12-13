@@ -1,0 +1,6 @@
+---
+# handlers for role
+- name: restart zeromq
+  service:
+    name: zeromq
+    state: reloaded

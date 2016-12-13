@@ -1,0 +1,3 @@
+
+[zmq]
+localhost   ansible_connection=local

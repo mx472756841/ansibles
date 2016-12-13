@@ -1,0 +1,5 @@
+---
+- hosts: zmq
+  remote_user: root
+  roles:
+    - zeromq
