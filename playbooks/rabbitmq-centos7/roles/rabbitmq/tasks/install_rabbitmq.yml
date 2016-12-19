@@ -1,0 +1,10 @@
+---
+- name: get rabbitmq rpm
+  get_url:
+    url: http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.0/rabbitmq-server-3.6.0-1.noarch.rpm
+    dest: /srv/rabbitmq-server-3.6.0-1.noarch.rpm
+    timeout: 1200
+
+- name: install rabbitmq
+  command: rpm -i --nodeps /srv/rabbitmq-server-3.6.0-1.noarch.rpm
+  notify: restart rabbitmq

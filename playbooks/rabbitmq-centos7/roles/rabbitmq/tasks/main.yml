@@ -1,0 +1,24 @@
+---
+# install rabbitmq
+- name: check erlang is exsits
+  command: /usr/local/erlang/bin/erlc
+  ignore_errors: True
+  register: "erl_exsits"
+
+- include: install_erlang.yml
+  when: erl_exsits.changed == false
+
+- name: check rabbitmq is exists
+  raw: rpm -qa|grep rabbitmq-server
+  ignore_errors: True
+  register: "rqm_exsits"
+
+- include: install_rabbitmq.yml
+  when: rqm_exsits.stdout == ""
+
+
+
+
+
+
+

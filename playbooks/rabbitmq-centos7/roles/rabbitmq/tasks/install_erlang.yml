@@ -1,0 +1,50 @@
+---
+- name: install erlang dependency library
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - make
+    - ncurses-devel
+    - gcc
+    - gcc-c++
+    - unixODBC
+    - unixODBC-devel
+    - openssl
+    - openssl-devel
+    - perl # centos7 内核版需要安装
+    - cpan
+    - libselinux-python
+
+# 在线下载安装包， 有的时候网络不好太慢了，直接下载好放入到files中
+- name: download erlang
+  get_url:
+    url: http://erlang.org/download/otp_src_{{ erlang_version }}.tar.gz
+    dest: /var/local/otp_src_{{ erlang_version }}.tar.gz
+
+- name: unarchive erlang
+  unarchive:
+    src: otp_src_{{ erlang_version }}.tar.gz
+    dest: /var/local
+
+- name: install erlang
+  shell: "cd /var/local/otp_src_17.0/ &&  ./configure --prefix=/usr/local/erlang --enable-smp-support --enable-threads --enable-sctp --enable-kernel-poll --enable-hipe --with-ssl && make && make install"
+
+
+- name: ln erlang
+  command: "ln -s {{ item.src }} {{ item.dest }}"
+  with_items:
+    - { src: '/usr/local/erlang/bin/erl' , dest: '/usr/bin/erl' }
+    - { src: '/usr/local/erlang/bin/erlc' , dest: '/usr/bin/erlc' }
+
+#- name: set erlang env
+#  lineinfile:
+#    dest: /etc/profile
+#    line: "{{ item }}"
+#  with_items:
+#    - ERL_HOME=/usr/local/erlang
+#    - PATH=$ERL_HOME/bin:$PATH
+#    - export ERL_HOME PATH
+#
+#- name: source erlang env
+#  shell: source /etc/profile
