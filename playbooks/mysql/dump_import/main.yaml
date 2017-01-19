@@ -1,0 +1,44 @@
+---
+- hosts: dumpserver
+  remote_user: root
+  vars:
+    dbname: proxy
+    hostname: 172.16.30.170
+
+  tasks:
+  - name: dump databases
+    mysql_db:
+      name: "{{ dbname }}"
+      state: dump
+      config_file: /etc/my.cnf
+      target: "/root/{{ dbname }}.sql"
+
+  - name: fetch database file
+    fetch:
+      src: "/root/{{ dbname }}.sql"
+      dest: "/home/doge"
+
+- hosts: importserver
+  remote_user: root
+  vars:
+    dbname: proxy
+    hostname: 172.16.30.170
+
+  tasks:
+  - name: download database file
+    copy:
+      src: "/home/doge/{{ hostname }}/root/{{ dbname }}.sql"
+      dest: "/root"
+
+  - name: create application database
+    mysql_db:
+      name: "{{ dbname }}"
+      state: present
+      config_file: /etc/mysql/my.cnf
+
+  - name: import database
+    mysql_db:
+      name: "{{ dbname }}"
+      state: import
+      config_file: /etc/mysql/my.cnf
+      target: "/root/{{ dbname }}.sql"

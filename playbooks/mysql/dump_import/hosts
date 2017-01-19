@@ -1,0 +1,5 @@
+[dumpserver]
+172.16.30.170
+
+[importserver]
+127.0.0.1
