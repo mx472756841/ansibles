@@ -1,0 +1,2 @@
+---
+- include: update_gitlab.yml

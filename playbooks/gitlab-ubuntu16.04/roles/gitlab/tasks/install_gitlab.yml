@@ -1,0 +1,35 @@
+---
+# install gitlab
+
+- name: install depend library
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - curl
+    - openssh-server
+    - ca-certificates
+    - postfix
+
+- name: add the GitLab package server and install the package
+  command: curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+  become: yes
+
+- name: install gitlab-ce
+  apt:
+    name: gitlab-ce
+    state: present
+
+- name: update gitlab conf
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    backup: yes
+  with_items:
+    - { src: 'gitlab.rb.j2', dest: '/etc/gitlab/'}
+
+- name: To configure and start GitLab
+  command: gitlab-ctl reconfigure
+  become: yes
+
+  notify: restart gitlab

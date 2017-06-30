@@ -1,0 +1,6 @@
+---
+# handlers for role gitlab
+- name: restart gitlab
+  service:
+    name: gitlab-runsvdir
+    state: restarted

@@ -1,0 +1,34 @@
+---
+# nginx params
+nginx:
+    port: 80
+    server_name: jenkins.example.com
+    gitlab_proxy_uri: http://localhost:9001
+
+# gitlab params
+gitlab:
+    # 修改地址,以及不使用gitlab内置nginx
+    external_url: http://git.funsun.com
+    nginx_enable: 'false'
+
+    # gitlab unicorn 服务地址及端口修改
+    unicorn_listen: 127.0.0.1
+    unicorn_port: 9001
+
+    # 发送邮箱相关设置
+    gitlab_email_enabled: 'true'
+    gitlab_email_from: service@123.com
+    gitlab_email_display_name: 123
+    smtp_enable: 'true'
+    smtp_address: smtp.123.com
+    smtp_port: 25
+    smtp_user_name: service@123.com‍
+    smtp_password: 123456
+    smtp_domain: 123.com
+    smtp_authentication: login
+    smtp_enable_starttls_auto: 'true'
+    smtp_tls: 'false'
+
+
+
+

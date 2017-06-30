@@ -1,0 +1,15 @@
+---
+# update gitlab
+- name: update gitlab conf
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    backup: yes
+  with_items:
+    - { src: 'gitlab.rb.j2', dest: '/etc/gitlab/gitlab.rb'}
+
+- name: To configure and start GitLab
+  command: gitlab-ctl reconfigure
+  become: yes
+
+  notify: restart gitlab
